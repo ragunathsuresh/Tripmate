@@ -33,13 +33,13 @@ const DestinationDetails = () => {
     useEffect(() => {
         const fetchDestination = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/destinations/${id}`);
+                const res = await axios.get(`/api/destinations/${id}`);
                 setDestination(res.data);
 
                 // Record history if user is logged in
                 const token = localStorage.getItem('token');
                 if (token) {
-                    await axios.post('http://localhost:5000/api/history/view',
+                    await axios.post('/api/history/view',
                         { destinationId: id },
                         { headers: { Authorization: `Bearer ${token}` } }
                     );
@@ -65,7 +65,7 @@ const DestinationDetails = () => {
         setAdding(true);
         try {
             const res = await axios.post(
-                'http://localhost:5000/api/trips/add-destination',
+                '/api/trips/add-destination',
                 { destinationId: id },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -271,3 +271,4 @@ const DestinationDetails = () => {
 };
 
 export default DestinationDetails;
+

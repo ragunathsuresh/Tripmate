@@ -28,7 +28,7 @@ const Home = () => {
     useEffect(() => {
         const fetchFeatured = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/destinations/featured');
+                const res = await axios.get('/api/destinations/featured');
                 setFeatured(res.data);
             } catch (err) {
                 console.error('Error fetching featured destinations:', err);
@@ -224,3 +224,4 @@ const Home = () => {
 };
 
 export default Home;
+

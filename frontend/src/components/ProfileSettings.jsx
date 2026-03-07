@@ -57,7 +57,7 @@ const ProfileSettings = () => {
     const fetchProfile = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.get('http://localhost:5000/api/users/profile', {
+            const res = await axios.get('/api/users/profile', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setProfile(res.data);
@@ -73,7 +73,7 @@ const ProfileSettings = () => {
         setSaving(true);
         try {
             const token = localStorage.getItem('token');
-            await axios.put('http://localhost:5000/api/users/profile', profile, {
+            await axios.put('/api/users/profile', profile, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             showNotification('Profile updated successfully!', 'success');
@@ -98,7 +98,7 @@ const ProfileSettings = () => {
         setSaving(true);
         try {
             const token = localStorage.getItem('token');
-            await axios.put('http://localhost:5000/api/users/change-password', {
+            await axios.put('/api/users/change-password', {
                 currentPassword: passwords.currentPassword,
                 newPassword: passwords.newPassword
             }, {
@@ -118,7 +118,7 @@ const ProfileSettings = () => {
         const newValue = !profile.twoFactorEnabled;
         try {
             const token = localStorage.getItem('token');
-            await axios.put('http://localhost:5000/api/users/two-factor', {
+            await axios.put('/api/users/two-factor', {
                 twoFactorEnabled: newValue
             }, {
                 headers: { Authorization: `Bearer ${token}` }
@@ -420,3 +420,4 @@ const ProfileSettings = () => {
 };
 
 export default ProfileSettings;
+

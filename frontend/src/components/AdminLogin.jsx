@@ -27,7 +27,7 @@ const AdminLogin = () => {
         setError(null);
 
         try {
-            const res = await axios.post('http://localhost:5000/api/admin/login', {
+            const res = await axios.post('/api/admin/login', {
                 loginId,
                 password
             });
@@ -127,3 +127,4 @@ const AdminLogin = () => {
 };
 
 export default AdminLogin;
+

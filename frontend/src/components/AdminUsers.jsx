@@ -60,7 +60,7 @@ const AdminUsers = () => {
         setLoading(true);
         const token = localStorage.getItem('token');
         try {
-            const res = await axios.get(`http://localhost:5000/api/admin/users?page=${page}&search=${filters.search}&travelStyle=${filters.travelStyle}&role=${filters.role}`, {
+            const res = await axios.get(`/api/admin/users?page=${page}&search=${filters.search}&travelStyle=${filters.travelStyle}&role=${filters.role}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setUsers(res.data.users);
@@ -83,7 +83,7 @@ const AdminUsers = () => {
         const newStatus = user.status === 'active' ? 'deactivated' : 'active';
         const token = localStorage.getItem('token');
         try {
-            await axios.patch(`http://localhost:5000/api/admin/users/${user._id}/status`,
+            await axios.patch(`/api/admin/users/${user._id}/status`,
                 { status: newStatus },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -97,7 +97,7 @@ const AdminUsers = () => {
         if (!window.confirm('Are you sure you want to delete this user? This action is irreversible.')) return;
         const token = localStorage.getItem('token');
         try {
-            await axios.delete(`http://localhost:5000/api/admin/users/${id}`, {
+            await axios.delete(`/api/admin/users/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchUsers();
@@ -110,7 +110,7 @@ const AdminUsers = () => {
         e.preventDefault();
         const token = localStorage.getItem('token');
         try {
-            await axios.post('http://localhost:5000/api/admin/users', form, {
+            await axios.post('/api/admin/users', form, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setShowModal(false);
@@ -489,3 +489,4 @@ const AdminUsers = () => {
 };
 
 export default AdminUsers;
+

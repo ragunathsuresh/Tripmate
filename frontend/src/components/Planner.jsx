@@ -60,7 +60,7 @@ const Planner = () => {
         setError('');
         try {
             const res = await axios.post(
-                'http://localhost:5000/api/trips/generate',
+                '/api/trips/generate',
                 prefs,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -314,3 +314,4 @@ const Planner = () => {
 };
 
 export default Planner;
+

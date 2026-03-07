@@ -39,7 +39,7 @@ const HistoryPage = () => {
         if (!isLoadMore) setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.get(`http://localhost:5000/api/history/user/${userId}?status=${status}&page=${pageNum}&limit=5`, {
+            const res = await axios.get(`/api/history/user/${userId}?status=${status}&page=${pageNum}&limit=5`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
@@ -203,3 +203,4 @@ const HistoryPage = () => {
 };
 
 export default HistoryPage;
+

@@ -47,7 +47,7 @@ const ItineraryPage = () => {
     const fetchItinerary = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.get(`http://localhost:5000/api/itinerary/${tripId}`, {
+            const res = await axios.get(`/api/itinerary/${tripId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setItinerary(res.data);
@@ -65,7 +65,7 @@ const ItineraryPage = () => {
         setRegenerating(true);
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.post(`http://localhost:5000/api/itinerary/regenerate-day`,
+            const res = await axios.post(`/api/itinerary/regenerate-day`,
                 { tripId, dayNumber: activeDay },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -81,7 +81,7 @@ const ItineraryPage = () => {
         e.preventDefault();
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.post(`http://localhost:5000/api/itinerary/add-activity`,
+            const res = await axios.post(`/api/itinerary/add-activity`,
                 { ...newActivity, tripId, dayNumber: activeDay },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -103,7 +103,7 @@ const ItineraryPage = () => {
     const handleDeleteActivity = async (activityId) => {
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.delete(`http://localhost:5000/api/itinerary/delete-activity`, {
+            const res = await axios.delete(`/api/itinerary/delete-activity`, {
                 headers: { Authorization: `Bearer ${token}` },
                 data: { tripId, dayNumber: activeDay, activityId }
             });
@@ -336,3 +336,4 @@ const ItineraryPage = () => {
 };
 
 export default ItineraryPage;
+

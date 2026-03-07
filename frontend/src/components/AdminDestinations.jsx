@@ -65,7 +65,7 @@ const AdminDestinations = () => {
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            const res = await axios.get(`http://localhost:5000/api/admin/destinations?page=${page}&search=${filters.search}&category=${filters.category}&status=${filters.status}`, {
+            const res = await axios.get(`/api/admin/destinations?page=${page}&search=${filters.search}&category=${filters.category}&status=${filters.status}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setDestinations(res.data.destinations);
@@ -88,7 +88,7 @@ const AdminDestinations = () => {
         const newStatus = currentStatus === 'active' ? 'hidden' : 'active';
         try {
             const token = localStorage.getItem('token');
-            await axios.patch(`http://localhost:5000/api/admin/destinations/${id}/status`,
+            await axios.patch(`/api/admin/destinations/${id}/status`,
                 { status: newStatus },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -102,7 +102,7 @@ const AdminDestinations = () => {
         if (!window.confirm('Are you sure you want to delete this destination?')) return;
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:5000/api/admin/destinations/${id}`, {
+            await axios.delete(`/api/admin/destinations/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchDestinations();
@@ -122,11 +122,11 @@ const AdminDestinations = () => {
         const token = localStorage.getItem('token');
         try {
             if (editingDest) {
-                await axios.put(`http://localhost:5000/api/admin/destinations/${editingDest._id}`, form, {
+                await axios.put(`/api/admin/destinations/${editingDest._id}`, form, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
             } else {
-                await axios.post('http://localhost:5000/api/admin/destinations', form, {
+                await axios.post('/api/admin/destinations', form, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
             }
@@ -414,3 +414,4 @@ const AdminDestinations = () => {
 };
 
 export default AdminDestinations;
+

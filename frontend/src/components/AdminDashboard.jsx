@@ -45,7 +45,7 @@ const AdminDashboard = () => {
 
     const fetchDashboardData = async (token) => {
         try {
-            const res = await axios.get('http://localhost:5000/api/admin/dashboard', {
+            const res = await axios.get('/api/admin/dashboard', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setData(res.data);
@@ -302,3 +302,4 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+

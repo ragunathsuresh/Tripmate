@@ -46,7 +46,7 @@ const MyTrips = () => {
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            let url = `http://localhost:5000/api/trips/user/${userId}`;
+            let url = `/api/trips/user/${userId}`;
             if (status !== 'all') {
                 url += `?status=${status}`;
             }
@@ -72,7 +72,7 @@ const MyTrips = () => {
         if (window.confirm('Are you sure you want to delete this trip?')) {
             try {
                 const token = localStorage.getItem('token');
-                await axios.delete(`http://localhost:5000/api/trips/${tripId}`, {
+                await axios.delete(`/api/trips/${tripId}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setTrips(trips.filter(t => t._id !== tripId));
@@ -257,6 +257,7 @@ const MyTrips = () => {
 };
 
 export default MyTrips;
+
 
 
 

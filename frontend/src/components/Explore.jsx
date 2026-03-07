@@ -72,7 +72,7 @@ const Explore = () => {
             if (rating > 0) params.append('rating', rating);
             if (budgetMax < 5000) params.append('budgetMax', budgetMax);
 
-            const res = await axios.get(`http://localhost:5000/api/destinations/explore?${params.toString()}`);
+            const res = await axios.get(`/api/destinations/explore?${params.toString()}`);
 
             if (isLoadMore) {
                 setDestinations(prev => [...prev, ...res.data.destinations]);
@@ -315,3 +315,4 @@ const Explore = () => {
 };
 
 export default Explore;
+

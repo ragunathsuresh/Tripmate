@@ -1,0 +1,354 @@
+.admin-users-page {
+    padding: 2rem 3rem;
+    background: #f8fafc;
+    min-height: 100vh;
+}
+
+.admin-users-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.admin-users-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.admin-users-header p {
+    color: #64748b;
+    font-weight: 500;
+}
+
+.btn-add-user {
+    background: #00d2ff;
+    color: white;
+    padding: 0.85rem 1.75rem;
+    border-radius: 100px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 15px -3px rgba(0, 210, 255, 0.3);
+    transition: all 0.2s;
+}
+
+.btn-add-user:hover {
+    background: #00b4db;
+    transform: translateY(-2px);
+}
+
+/* Filters */
+.admin-users-filters {
+    background: white;
+    padding: 1.25rem 1.75rem;
+    border-radius: 24px;
+    border: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.search-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: #f8fafc;
+    padding: 0.7rem 1.25rem;
+    border-radius: 12px;
+    gap: 0.75rem;
+}
+
+.search-wrapper input {
+    background: none;
+    border: none;
+    width: 100%;
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+.search-wrapper input:focus {
+    outline: none;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.filter-label {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+
+.select-filter {
+    padding: 0.6rem 1rem;
+    background: #f8fafc;
+    border: 1px solid #f1f5f9;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #334155;
+    outline: none;
+}
+
+/* Users Table */
+.admin-users-table-card {
+    background: white;
+    border-radius: 24px;
+    border: 1px solid #f1f5f9;
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.admin-users-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-users-table th {
+    text-align: left;
+    padding: 1.25rem 1.5rem;
+    background: #fafcfe;
+    border-bottom: 2px solid #f1f5f9;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+
+.admin-users-table td {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #f8fafc;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.user-main-cell {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-avatar-small {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-id-badge {
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-family: monospace;
+}
+
+.style-badge {
+    padding: 0.35rem 0.85rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    display: inline-block;
+}
+
+.style-Luxury {
+    background: #eff6ff;
+    color: #3b82f6;
+}
+
+.style-Budget {
+    background: #f0fdf4;
+    color: #22c55e;
+}
+
+.style-Adventure {
+    background: #faf5ff;
+    color: #9333ea;
+}
+
+.style-Solo {
+    background: #fff1f2;
+    color: #e11d48;
+}
+
+.status-toggle-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-text {
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.status-active-text {
+    color: #22c55e;
+}
+
+.status-deactivated-text {
+    color: #94a3b8;
+}
+
+.btn-toggle-status {
+    width: 36px;
+    height: 20px;
+    background: #cbd5e1;
+    border-radius: 100px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-toggle-status.active {
+    background: #22c55e;
+}
+
+.toggle-knob {
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    transition: all 0.3s;
+}
+
+.btn-toggle-status.active .toggle-knob {
+    left: calc(100% - 17px);
+}
+
+.user-action-btns {
+    display: flex;
+    gap: 1rem;
+    color: #94a3b8;
+}
+
+.user-action-btn {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.user-action-btn:hover {
+    color: #00d2ff;
+}
+
+.btn-del-user:hover {
+    color: #f43f5e;
+}
+
+/* Table Footer */
+.users-table-footer {
+    padding: 1.25rem 1.75rem;
+    background: #fafcfe;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 600;
+}
+
+/* User Detail Modal Extension */
+.user-detail-header {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.large-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-header-info h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+}
+
+.user-header-info p {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.user-stats-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.user-stat-item {
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.user-stat-item span {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+
+.user-stat-item h3 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-top: 0.25rem;
+}
+
+.user-info-section {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.user-info-section h4 {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 1rem;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.info-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #94a3b8;
+}
+
+.info-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #334155;
+    margin-top: 0.25rem;
+}
+
+.user-bio-text {
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #475569;
+}

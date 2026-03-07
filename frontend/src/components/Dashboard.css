@@ -1,0 +1,574 @@
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8fafc;
+    color: #1e293b;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Sidebar */
+.dashboard-sidebar {
+    width: 260px;
+    background: white;
+    border-right: 1px solid #e2e8f0;
+    padding: 2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.dashboard-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.logo-box {
+    width: 32px;
+    height: 32px;
+    background: #00d2ff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.dashboard-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.dashboard-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1.25rem;
+    border-radius: 12px;
+    color: #64748b;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.dashboard-nav-item:hover,
+.dashboard-nav-item.active {
+    background: #f0f9ff;
+    color: #00d2ff;
+}
+
+.btn-logout {
+    margin-top: auto;
+    background: #fff1f2;
+    color: #e11d48;
+    border: none;
+    padding: 0.85rem;
+    border-radius: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* Main Content */
+.dashboard-main {
+    flex: 1;
+    padding: 2.5rem 4rem;
+}
+
+.dashboard-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: #f1f5f9;
+    padding: 0.75rem 1.25rem;
+    border-radius: 14px;
+    width: 450px;
+    gap: 1rem;
+}
+
+.search-bar input {
+    background: none;
+    border: none;
+    font-family: inherit;
+    flex: 1;
+}
+
+.search-bar input:focus {
+    outline: none;
+}
+
+.dashboard-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.profile-img-small {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e2e8f0;
+}
+
+.welcome-section {
+    margin-bottom: 3rem;
+}
+
+.welcome-section h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.welcome-section p {
+    color: #64748b;
+    font-size: 1.1rem;
+}
+
+/* Dashboard Widgets */
+.dashboard-top-row {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 2.5rem;
+    margin-bottom: 3.5rem;
+}
+
+/* Upcoming Trip Card */
+.upcoming-trip-card {
+    background: white;
+    border-radius: 28px;
+    border: 1px solid #f1f5f9;
+    display: flex;
+    overflow: hidden;
+    height: 380px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+.trip-img-box {
+    width: 45%;
+    position: relative;
+}
+
+.trip-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.status-badge {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    background: rgba(0, 210, 255, 0.9);
+    backdrop-filter: blur(8px);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.trip-info-box {
+    width: 55%;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.trip-date-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: #00d2ff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+}
+
+.trip-info-box h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 1rem;
+}
+
+.trip-info-box p {
+    color: #64748b;
+    line-height: 1.7;
+    flex: 1;
+}
+
+.trip-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.btn-view-details {
+    background: #00d2ff;
+    color: white;
+    padding: 0.85rem 1.75rem;
+    border-radius: 14px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 15px -3px rgba(0, 210, 255, 0.3);
+}
+
+.btn-manage {
+    background: #f1f5f9;
+    color: #334155;
+    padding: 0.85rem 1.75rem;
+    border-radius: 14px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Recent Searches Tooltip list */
+.recent-searches-widget {
+    background: white;
+    border-radius: 28px;
+    padding: 2rem;
+    border: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
+}
+
+.widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.widget-header h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.view-all-link {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #00d2ff;
+    text-decoration: none;
+}
+
+.search-item {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f8fafc;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.search-item:hover {
+    transform: translateX(5px);
+}
+
+.search-item:last-child {
+    border-bottom: none;
+}
+
+.search-thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    object-fit: cover;
+}
+
+.search-info h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.search-info p {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.chevron-right {
+    margin-left: auto;
+    color: #e2e8f0;
+}
+
+/* Recommendations Horizontal Carousel Style List */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.section-header h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.reco-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+}
+
+.reco-card {
+    background: white;
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.reco-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.reco-fav {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(4px);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+}
+
+.reco-content {
+    padding: 1.25rem;
+}
+
+.reco-cat {
+    font-size: 0.75rem;
+    color: #00d2ff;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.reco-content h4 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+}
+
+.reco-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.reco-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #64748b;
+}
+
+.reco-price {
+    font-weight: 800;
+    font-size: 1.05rem;
+}
+
+/* Bottom Row: Saved Trips + Map */
+.dashboard-bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 2.5rem;
+}
+
+.saved-trips-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.saved-trip-item {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 24px;
+    border: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.saved-trip-item:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    transform: translateY(-3px);
+}
+
+.icon-box-blue {
+    background: #f0f9ff;
+    color: #00d2ff;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-box-green {
+    background: #f0fdf4;
+    color: #22c55e;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.saved-trip-info h4 {
+    font-size: 0.95rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+}
+
+.saved-trip-info p {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.saved-trip-info span {
+    font-size: 0.75rem;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.btn-plan-new {
+    border: 2px dashed #e2e8f0;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-weight: 700;
+    color: #64748b;
+    cursor: pointer;
+    background: none;
+    height: 100%;
+    transition: all 0.2s;
+}
+
+.btn-plan-new:hover {
+    border-color: #00d2ff;
+    color: #00d2ff;
+    background: #f0f9ff;
+}
+
+/* Map Widget */
+.map-widget {
+    background: #475569;
+    border-radius: 28px;
+    height: 250px;
+    position: relative;
+    overflow: hidden;
+}
+
+.map-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    color: white;
+}
+
+.map-overlay h3 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.map-overlay p {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin-bottom: 1.5rem;
+}
+
+.btn-open-map {
+    background: white;
+    color: #1e293b;
+    border: none;
+    padding: 0.6rem 1.25rem;
+    border-radius: 100px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.ping-marker {
+    width: 12px;
+    height: 12px;
+    background: #00d2ff;
+    border-radius: 50%;
+    position: relative;
+}
+
+.ping-marker::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border: 2px solid #00d2ff;
+    border-radius: 50%;
+    animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+
+    75%,
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}

@@ -9,6 +9,7 @@ const itineraryRoutes = require('./routes/itineraryRoutes');
 const historyRoutes = require('./routes/historyRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
+const aboutRoutes = require('./routes/aboutRoutes');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use('/api/itinerary', itineraryRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/about', aboutRoutes);
 
 app.get('/api/health', (req, res) => {
   res.status(200).json({ ok: true });

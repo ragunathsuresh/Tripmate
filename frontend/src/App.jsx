@@ -15,6 +15,7 @@ import AdminDashboard from './components/AdminDashboard';
 import AdminDestinations from './components/AdminDestinations';
 import AdminUsers from './components/AdminUsers';
 import Dashboard from './components/Dashboard';
+import About from './components/About';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/itinerary/:tripId" element={<ItineraryPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/about" element={<About />} />
 
         {/* Smart Dashboard Redirect */}
         <Route path="/dashboard" element={

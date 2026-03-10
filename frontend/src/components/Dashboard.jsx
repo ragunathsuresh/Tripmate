@@ -21,7 +21,9 @@ import {
     Mountain,
     Activity,
     Navigation,
-    Loader2
+    Loader2,
+    User,
+    Trophy
 } from 'lucide-react';
 import './Dashboard.css';
 
@@ -114,8 +116,8 @@ const Dashboard = () => {
         <div className="dashboard-container">
             <aside className="dashboard-sidebar">
                 <div className="dashboard-logo">
-                    <div className="logo-box"><Plane size={20} fill="white" /></div>
-                    <span>AI Travel</span>
+                    <img src="/tripmate-logo.png" alt="Logo" style={{ width: '32px', height: '32px', borderRadius: '8px' }} />
+                    <span>Tripmate</span>
                 </div>
 
                 <nav className="dashboard-nav">
@@ -133,6 +135,9 @@ const Dashboard = () => {
                     </Link>
                     <Link to="/history" className="dashboard-nav-item">
                         <History size={20} /> Travel History
+                    </Link>
+                    <Link to="/bookings" className="dashboard-nav-item">
+                        <Trophy size={20} /> Bookings
                     </Link>
 
                     <div style={{ marginTop: '2rem' }}></div>
@@ -160,7 +165,13 @@ const Dashboard = () => {
                             <h4 style={{ margin: 0, fontWeight: 800 }}>{user?.name}</h4>
                             <p style={{ margin: 0, fontSize: '0.75rem', color: '#64748b', fontWeight: 600 }}>Gold Explorer</p>
                         </div>
-                        <img src={`https://i.pravatar.cc/150?u=${user?._id}`} className="profile-img-small" alt="Profile" />
+                        {user?.profilePicture ? (
+                            <img src={user.profilePicture} className="profile-img-small" alt="Profile" />
+                        ) : (
+                            <div className="profile-img-small-placeholder" style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <User size={18} color="#64748b" />
+                            </div>
+                        )}
                     </div>
                 </header>
 

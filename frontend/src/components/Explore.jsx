@@ -16,7 +16,22 @@ import {
     Compass,
     Building2,
     Bell,
-    User as UserIcon
+    User as UserIcon,
+    Heart,
+    Gem,
+    Trees,
+    Car,
+    Music,
+    Thermometer,
+    CloudRain,
+    Anchor,
+    Palmtree,
+    Zap,
+    Users,
+    User,
+    Briefcase,
+    Ship,
+    Camera
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Explore.css';
@@ -29,6 +44,12 @@ const Explore = () => {
     const [totalResults, setTotalResults] = useState(0);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        if (userInfo) setUser(userInfo);
+    }, []);
 
     // Filters State
     const [filters, setFilters] = useState({
@@ -37,7 +58,8 @@ const Explore = () => {
         climate: '',
         rating: 0,
         budgetMax: 5000,
-        sort: 'popularity'
+        sort: 'popularity',
+        travelStyle: ''
     });
 
     const categories = [
@@ -45,19 +67,38 @@ const Explore = () => {
         { id: 'Hill', icon: <Mountain size={18} />, label: 'Hill' },
         { id: 'Historical', icon: <History size={18} />, label: 'Historical' },
         { id: 'Adventure', icon: <Compass size={18} />, label: 'Adventure' },
-        { id: 'City', icon: <Building2 size={18} />, label: 'City' }
+        { id: 'City', icon: <Building2 size={18} />, label: 'City' },
+        { id: 'Wildlife', icon: <Trees size={18} />, label: 'Wildlife' },
+        { id: 'Wellness', icon: <Heart size={18} />, label: 'Wellness' },
+        { id: 'Luxury', icon: <Gem size={18} />, label: 'Luxury' },
+        { id: 'Cultural', icon: <Music size={18} />, label: 'Cultural' },
+        { id: 'RoadTrip', icon: <Car size={18} />, label: 'Road Trip' }
     ];
 
     const climates = [
         { id: 'Tropical', icon: <Sun size={16} />, label: 'Tropical & Warm' },
         { id: 'Moderate', icon: <Wind size={16} />, label: 'Moderate' },
-        { id: 'Cold', icon: <Snowflake size={16} />, label: 'Cold & Snowy' }
+        { id: 'Cold', icon: <Snowflake size={16} />, label: 'Cold & Snowy' },
+        { id: 'Arid', icon: <Sun size={16} />, label: 'Arid (Desert)' },
+        { id: 'Rainy', icon: <CloudRain size={16} />, label: 'Rainy' },
+        { id: 'Coastal', icon: <Anchor size={16} />, label: 'Coastal' },
+        { id: 'Arctic', icon: <Zap size={16} />, label: 'Arctic' },
+        { id: 'Alpine', icon: <Mountain size={16} />, label: 'Alpine' },
+        { id: 'Humid', icon: <Thermometer size={16} />, label: 'Humid' }
+    ];
+
+    const travelStyles = [
+        { id: 'Solo', icon: <User size={16} />, label: 'Solo Traveler' },
+        { id: 'Couple', icon: <Heart size={16} />, label: 'Couple' },
+        { id: 'Family', icon: <Users size={16} />, label: 'Family' },
+        { id: 'Business', icon: <Briefcase size={16} />, label: 'Business' },
+        { id: 'Cruise', icon: <Ship size={16} />, label: 'Cruise' }
     ];
 
     const fetchDestinations = useCallback(async (isLoadMore = false) => {
         setLoading(true);
         try {
-            const { search, category, climate, rating, budgetMax, sort } = filters;
+            const { search, category, climate, rating, budgetMax, sort, travelStyle } = filters;
             const currentPage = isLoadMore ? page + 1 : 1;
 
             const params = new URLSearchParams({
@@ -71,6 +112,7 @@ const Explore = () => {
             if (climate) params.append('climate', climate);
             if (rating > 0) params.append('rating', rating);
             if (budgetMax < 5000) params.append('budgetMax', budgetMax);
+            if (travelStyle) params.append('travelStyle', travelStyle);
 
             const res = await axios.get(`/api/destinations/explore?${params.toString()}`);
 
@@ -94,7 +136,7 @@ const Explore = () => {
 
     useEffect(() => {
         fetchDestinations();
-    }, [filters.category, filters.climate, filters.rating, filters.budgetMax, filters.sort]);
+    }, [filters.category, filters.climate, filters.rating, filters.budgetMax, filters.sort, filters.travelStyle]);
 
     const handleSearchSubmit = (e) => {
         e.preventDefault();
@@ -109,11 +151,9 @@ const Explore = () => {
         <div className="explore-page">
             {/* Top Navbar */}
             <header className="explore-header">
-                <div className="header-logo">
-                    <div className="logo-circ">
-                        <Compass size={24} color="white" />
-                    </div>
-                    <span>AI Travel</span>
+                <div className="header-logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+                    <img src="/tripmate-logo.png" alt="Logo" style={{ width: '32px', height: '32px', borderRadius: '8px' }} />
+                    <span>Tripmate</span>
                 </div>
 
                 <form onSubmit={handleSearchSubmit} className="header-search">
@@ -128,7 +168,13 @@ const Explore = () => {
 
                 <div className="header-actions">
                     <button className="icon-btn"><Bell size={20} /></button>
-                    <button className="profile-btn"><UserIcon size={20} /></button>
+                    <button className="profile-btn" onClick={() => navigate('/settings')}>
+                        {user?.profilePicture ? (
+                            <img src={user.profilePicture} alt="User" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+                        ) : (
+                            <UserIcon size={20} />
+                        )}
+                    </button>
                 </div>
             </header>
 
@@ -167,6 +213,18 @@ const Explore = () => {
                                 <span>$500</span>
                                 <span>${filters.budgetMax}+</span>
                             </div>
+                            <div className="budget-chips">
+                                {[1000, 2000, 3000, 4000, 5000].map(val => (
+                                    <button
+                                        key={val}
+                                        className={`budget-chip ${filters.budgetMax === val ? 'active' : ''}`}
+                                        onClick={() => setFilters(prev => ({ ...prev, budgetMax: val }))}
+                                    >
+                                        <Gem size={12} />
+                                        ${val}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </section>
 
@@ -191,7 +249,7 @@ const Explore = () => {
                     <section className="filter-section">
                         <h4>RATING</h4>
                         <div className="rating-filter">
-                            {[4, 3, 2, 1].map(star => (
+                            {[4.8, 4.5, 4.0, 3.5, 3.0, 2.0, 1.0].map(star => (
                                 <button
                                     key={star}
                                     className={`rating-btn ${filters.rating === star ? 'active' : ''}`}
@@ -202,12 +260,27 @@ const Explore = () => {
                                             <Star
                                                 key={i}
                                                 size={14}
-                                                fill={i < star ? "#00d2ff" : "none"}
+                                                fill={i < Math.floor(star) ? "#00d2ff" : (i < star ? "url(#grad1)" : "none")}
                                                 color={i < star ? "#00d2ff" : "#475569"}
                                             />
                                         ))}
                                     </div>
                                     <span>{star}+ stars</span>
+                                </button>
+                            ))}
+                        </div>
+                    </section>
+                    <section className="filter-section">
+                        <h4>TRAVEL STYLE</h4>
+                        <div className="style-list">
+                            {travelStyles.map(style => (
+                                <button
+                                    key={style.id}
+                                    className={`style-item ${filters.travelStyle === style.id ? 'active' : ''}`}
+                                    onClick={() => handleFilterChange('travelStyle', style.id)}
+                                >
+                                    {style.icon}
+                                    <span>{style.label}</span>
                                 </button>
                             ))}
                         </div>
@@ -239,8 +312,15 @@ const Explore = () => {
                     <div className="destinations-grid">
                         {destinations.map((dest) => (
                             <div key={dest._id} className="dest-card">
-                                <div className="card-media">
-                                    <img src={dest.images[0]} alt={dest.name} />
+                                <div className="card-media" onClick={() => navigate(`/destination/${dest._id}`)} style={{ cursor: 'pointer' }}>
+                                    <img
+                                        src={dest.images?.[0] || 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1000&auto=format&fit=crop'}
+                                        alt={dest.name}
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1000&auto=format&fit=crop';
+                                        }}
+                                    />
                                     <div className="rating-badge">
                                         <Star size={12} fill="#fbbf24" color="#fbbf24" />
                                         <span>{dest.rating}</span>
@@ -251,7 +331,7 @@ const Explore = () => {
                                     <span className="dest-location">
                                         <MapPin size={14} /> {dest.city}, {dest.country}
                                     </span>
-                                    <h3>{dest.name}</h3>
+                                    <h3 onClick={() => navigate(`/destination/${dest._id}`)} style={{ cursor: 'pointer' }}>{dest.name}</h3>
                                     <p>{dest.description}</p>
 
                                     <div className="card-footer">
@@ -310,6 +390,15 @@ const Explore = () => {
                     <Compass size={18} />
                 </div>
             </footer>
+
+            <svg width="0" height="0" className="hidden">
+                <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="50%" style={{ stopColor: '#00d2ff', stopOpacity: 1 }} />
+                        <stop offset="50%" style={{ stopColor: 'transparent', stopOpacity: 0 }} />
+                    </linearGradient>
+                </defs>
+            </svg>
         </div>
     );
 };

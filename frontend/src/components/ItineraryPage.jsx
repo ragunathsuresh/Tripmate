@@ -30,7 +30,12 @@ const ItineraryPage = () => {
     const [loading, setLoading] = useState(true);
     const [activeDay, setActiveDay] = useState(1);
     const [showModal, setShowModal] = useState(false);
-    const [regenerating, setRegenerating] = useState(false);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        if (userInfo) setUser(userInfo);
+    }, []);
     const [newActivity, setNewActivity] = useState({
         activityTitle: '',
         location: '',
@@ -128,15 +133,21 @@ const ItineraryPage = () => {
         <div className="itinerary-page">
             <header className="itinerary-header">
                 <div className="itin-logo">
-                    <Compass size={24} color="#00d2ff" />
-                    <span>AI Travel Planner</span>
+                    <img src="/tripmate-logo.png" alt="Logo" style={{ width: '32px', height: '32px', borderRadius: '8px' }} />
+                    <span>Tripmate</span>
                 </div>
                 <div className="itin-actions">
                     <button className="btn-header-action outline"><Edit3 size={16} /> Edit</button>
                     <button className="btn-header-action outline"><Heart size={16} /> Save</button>
                     <button className="btn-header-action primary"><Download size={16} /> Export</button>
                     <div className="user-profile-mini">
-                        <img src="https://i.pravatar.cc/150?u=traveler" alt="User" />
+                        {user?.profilePicture ? (
+                            <img src={user.profilePicture} alt="User" />
+                        ) : (
+                            <div className="user-avatar-placeholder" style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <Users size={18} color="#64748b" />
+                            </div>
+                        )}
                     </div>
                 </div>
             </header>

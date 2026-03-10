@@ -17,7 +17,9 @@ import {
     Map as MapIcon,
     PlusCircle,
     CheckCircle2,
-    Loader2
+    Loader2,
+    Zap,
+    User
 } from 'lucide-react';
 import './DestinationDetails.css';
 
@@ -25,6 +27,7 @@ const DestinationDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [destination, setDestination] = useState(null);
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [adding, setAdding] = useState(false);
     const [success, setSuccess] = useState('');
@@ -35,6 +38,14 @@ const DestinationDetails = () => {
             try {
                 const res = await axios.get(`/api/destinations/${id}`);
                 setDestination(res.data);
+
+                const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+                if (userInfo) {
+                    const userRes = await axios.get('/api/users/profile', {
+                        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+                    });
+                    setUser(userRes.data);
+                }
 
                 // Record history if user is logged in
                 const token = localStorage.getItem('token');
@@ -95,12 +106,38 @@ const DestinationDetails = () => {
 
     if (loading) return (
         <div className="details-loader">
-            <Loader2 className="animate-spin" size={48} color="#00d2ff" />
-            <p>Gathering travel insights...</p>
+            <div className="loader-content">
+                <Loader2 className="animate-spin" size={48} color="#00d2ff" />
+                <p>Gathering travel insights...</p>
+            </div>
         </div>
     );
 
-    if (!destination) return <div className="details-error">Destination not found.</div>;
+    if (error) return (
+        <div className="details-error-page">
+            <div className="error-content">
+                <Compass size={60} color="#ef4444" />
+                <h2>Oops! Adventure not found</h2>
+                <p>{error}</p>
+                <button onClick={() => navigate('/explore')} className="btn-back-explore">
+                    Back to Destinations
+                </button>
+            </div>
+        </div>
+    );
+
+    if (!destination) return (
+        <div className="details-error-page">
+            <div className="error-content">
+                <Compass size={60} color="#94a3b8" />
+                <h2>Destination not found</h2>
+                <p>We couldn't find the travel details you're looking for.</p>
+                <button onClick={() => navigate('/explore')} className="btn-back-explore">
+                    Back to Destinations
+                </button>
+            </div>
+        </div>
+    );
 
     return (
         <div className="details-page">
@@ -109,16 +146,22 @@ const DestinationDetails = () => {
                     <button onClick={() => navigate(-1)} className="back-btn">
                         <ArrowLeft size={20} />
                     </button>
-                    <div className="mini-logo">
-                        <Compass size={24} color="#00d2ff" />
-                        <span>AI Travel</span>
+                    <div className="mini-logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+                        <img src="/tripmate-logo.png" alt="Logo" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
+                        <span>Tripmate</span>
                     </div>
                 </div>
                 <div className="header-actions">
                     <button className="action-circle"><Share2 size={18} /></button>
                     <button className="action-circle"><Heart size={18} /></button>
                     <div className="user-profile-mini">
-                        <img src="https://i.pravatar.cc/150?u=traveler" alt="User" />
+                        {user?.profilePicture ? (
+                            <img src={user.profilePicture} alt="User" />
+                        ) : (
+                            <div className="user-avatar-placeholder" style={{ width: '32px', height: '32px', background: '#f1f5f9', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <User size={16} color="#64748b" />
+                            </div>
+                        )}
                     </div>
                 </div>
             </header>
@@ -126,16 +169,24 @@ const DestinationDetails = () => {
             <main className="details-container">
                 {/* Hero Section */}
                 <section className="details-hero">
-                    <img src={destination.images[0]} alt={destination.name} className="hero-img" />
+                    <img
+                        src={destination.images?.[0] || 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200&auto=format&fit=crop'}
+                        alt={destination.name}
+                        className="hero-img"
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200&auto=format&fit=crop';
+                        }}
+                    />
                     <div className="hero-overlay">
                         <div className="tag-row">
-                            <span className="hero-tag coastal">COASTAL</span>
-                            <span className="hero-tag luxury">LUXURY</span>
+                            <span className="hero-tag coastal">{destination.category?.toUpperCase() || 'COASTAL'}</span>
+                            <span className="hero-tag luxury">{destination.travelStyle?.toUpperCase() || 'LUXURY'}</span>
                         </div>
-                        <h1>{destination.name}</h1>
+                        <h1>{destination?.name}</h1>
                         <div className="hero-location">
                             <MapPin size={18} />
-                            <span>{destination.city}, {destination.country}</span>
+                            <span>{destination?.city}, {destination?.country}</span>
                         </div>
                     </div>
                     <div className="hero-stats">
@@ -175,7 +226,9 @@ const DestinationDetails = () => {
                                 </div>
                                 <div className="info-text">
                                     <h4>Estimated Cost</h4>
-                                    <p className="highlight">${destination.estimatedCostPerDay - 100} - ${destination.estimatedCostPerDay + 150} / day</p>
+                                    <p className="highlight">
+                                        ${(destination?.estimatedCostPerDay || 200) - 100} - ${(destination?.estimatedCostPerDay || 200) + 150} / day
+                                    </p>
                                     <p className="subtext">Premium destination with luxury dining and stays.</p>
                                 </div>
                             </div>
@@ -195,6 +248,39 @@ const DestinationDetails = () => {
                                         </div>
                                     </div>
                                 ))}
+                            </div>
+                        </section>
+
+                        <section className="package-preview-section">
+                            <div className="section-title-row">
+                                <h2><Zap size={22} color="#00d2ff" /> AI Sample Package</h2>
+                                <span className="package-badge">3 Days / 2 Nights</span>
+                            </div>
+                            <div className="package-itinerary">
+                                <div className="itinerary-day">
+                                    <div className="day-header">Day 1: Arrival & Exploration</div>
+                                    <ul className="day-stops">
+                                        <li><span>09:00 AM</span> Check-in to your {destination?.travelStyle || 'Suite'}</li>
+                                        <li><span>01:00 PM</span> Local lunch at {destination?.city || 'the'} harbor</li>
+                                        <li><span>03:00 PM</span> {destination?.activities?.[0]?.title || 'Sightseeing Tour'}</li>
+                                    </ul>
+                                </div>
+                                <div className="itinerary-day">
+                                    <div className="day-header">Day 2: Deep Dive Adventure</div>
+                                    <ul className="day-stops">
+                                        <li><span>10:00 AM</span> {destination?.activities?.[1]?.title || 'Main Attraction'}</li>
+                                        <li><span>02:00 PM</span> Cultural workshop and local craft</li>
+                                        <li><span>07:00 PM</span> Traditional dinner and live music</li>
+                                    </ul>
+                                </div>
+                                <div className="itinerary-day">
+                                    <div className="day-header">Day 3: Relaxation & Departure</div>
+                                    <ul className="day-stops">
+                                        <li><span>08:00 AM</span> Morning yoga or coastal walk</li>
+                                        <li><span>11:00 AM</span> Souvenir shopping in central {destination?.city || 'market'}</li>
+                                        <li><span>04:00 PM</span> Transfer to airport</li>
+                                    </ul>
+                                </div>
                             </div>
                         </section>
                     </div>
@@ -234,15 +320,17 @@ const DestinationDetails = () => {
                             <p className="planner-footer">Join 12,000+ travelers planning here</p>
                         </div>
 
-                        <div className="map-preview">
-                            <div className="map-placeholder">
-                                <img src={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s+ff0000(${destination.coordinates.lng},${destination.coordinates.lat})/${destination.coordinates.lng},${destination.coordinates.lat},12,0/600x400?access_token=pk.eyJ1Ijoiam9obmRvZSIsImEiOiJjbDFhMmIzYjRjMGNkejFvMTFvMTFvMTF0In0=`} alt="Map" />
-                                <div className="map-overlay">
-                                    <MapIcon size={20} />
-                                    <span>Interactive Map</span>
+                        {destination?.coordinates?.lat && destination?.coordinates?.lng && (
+                            <div className="map-preview">
+                                <div className="map-placeholder">
+                                    <img src={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s+ff0000(${destination.coordinates.lng},${destination.coordinates.lat})/${destination.coordinates.lng},${destination.coordinates.lat},12,0/600x400?access_token=pk.eyJ1Ijoiam9obmRvZSIsImEiOiJjbDFhMmIzYjRjMGNkejFvMTFvMTFvMTFvMTF0In0=`} alt="Map" />
+                                    <div className="map-overlay">
+                                        <MapIcon size={20} />
+                                        <span>Interactive Map</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        )}
 
                         <div className="tags-cloud">
                             <span className="tag">#{destination.country}</span>

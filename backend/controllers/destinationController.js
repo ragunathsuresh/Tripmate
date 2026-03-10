@@ -106,6 +106,7 @@ const exploreDestinations = async (req, res) => {
         budgetMax,
         climate,
         rating,
+        travelStyle,
         sort,
         page = 1,
         limit = 9
@@ -141,6 +142,11 @@ const exploreDestinations = async (req, res) => {
     // 5. Filter by minimum rating
     if (rating) {
         query.rating = { $gte: Number(rating) };
+    }
+
+    // 6. Filter by travel style
+    if (travelStyle) {
+        query.travelStyle = travelStyle;
     }
 
     try {

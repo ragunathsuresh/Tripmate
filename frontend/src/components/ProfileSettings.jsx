@@ -13,10 +13,10 @@ import {
     Plus,
     X,
     Lock,
-    CheckCircle,
     Loader2,
     Home,
-    Map
+    Map,
+    Trophy
 } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import './ProfileSettings.css';
@@ -34,6 +34,7 @@ const ProfileSettings = () => {
         travelStyle: 'Adventure & Outdoors',
         monthlyBudget: 0,
         topDestinations: [],
+        profilePicture: '',
         twoFactorEnabled: false
     });
 
@@ -60,7 +61,10 @@ const ProfileSettings = () => {
             const res = await axios.get('/api/users/profile', {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setProfile(res.data);
+            setProfile({
+                ...res.data,
+                topDestinations: res.data.topDestinations || []
+            });
             setLoading(false);
         } catch (err) {
             showNotification('Failed to load profile settings', 'error');
@@ -176,12 +180,18 @@ const ProfileSettings = () => {
 
             <aside className="profile-sidebar">
                 <div className="sidebar-logo">
-                    <div className="logo-icon"><Compass size={20} color="white" /></div>
-                    <span>TravelWise</span>
+                    <img src="/tripmate-logo.png" alt="Logo" style={{ width: '32px', height: '32px', borderRadius: '8px' }} />
+                    <span>Tripmate</span>
                 </div>
 
                 <div className="user-summary">
-                    <img src={`https://i.pravatar.cc/150?u=${profile?._id}`} alt="User" className="user-avatar" />
+                    {profile.profilePicture ? (
+                        <img src={profile.profilePicture} alt="User" className="user-avatar" />
+                    ) : (
+                        <div className="user-avatar-placeholder">
+                            <User size={24} color="#64748b" />
+                        </div>
+                    )}
                     <div className="user-name-tag">
                         <h4>{profile.name}</h4>
                         <p>Premium Member</p>
@@ -193,10 +203,10 @@ const ProfileSettings = () => {
                         <User size={18} /> Profile Settings
                     </Link>
                     <Link to="/my-trips" className="nav-link">
-                        <Map size={18} /> My Bookings
+                        <Map size={18} /> My Trips
                     </Link>
-                    <Link to="/saved" className="nav-link">
-                        <Bell size={18} /> Wishlist
+                    <Link to="/bookings" className="nav-link">
+                        <Trophy size={18} /> Bookings
                     </Link>
                     <Link to="/billing" className="nav-link">
                         <CreditCard size={18} /> Billing
@@ -251,6 +261,32 @@ const ProfileSettings = () => {
                                 />
                             </div>
                             <div className="form-group full-width">
+                                <label>Profile Picture URL</label>
+                                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                                    <input
+                                        type="text"
+                                        className="form-input"
+                                        style={{ flex: 1 }}
+                                        value={profile.profilePicture || ''}
+                                        onChange={(e) => setProfile({ ...profile, profilePicture: e.target.value })}
+                                        placeholder="Paste image URL here"
+                                    />
+                                    {profile.profilePicture && (
+                                        <button
+                                            type="button"
+                                            className="btn-discard"
+                                            onClick={() => setProfile({ ...profile, profilePicture: '' })}
+                                            style={{ color: '#ef4444' }}
+                                        >
+                                            Remove
+                                        </button>
+                                    )}
+                                </div>
+                                <p className="subtext" style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '0.25rem' }}>
+                                    External image link (Unsplash, Imgur, etc.)
+                                </p>
+                            </div>
+                            <div className="form-group full-width">
                                 <label>Profile Bio</label>
                                 <textarea
                                     className="form-input textarea"
@@ -296,8 +332,8 @@ const ProfileSettings = () => {
                             <div className="form-group full-width">
                                 <label>Top Destinations Interest</label>
                                 <div className="destinations-interests">
-                                    {profile.topDestinations.map(tag => (
-                                        <span key={tag} className="interest-tag">
+                                    {(profile.topDestinations || []).map((tag, idx) => (
+                                        <span key={tag || idx} className="interest-tag">
                                             {tag}
                                             <span onClick={() => removeInterest(tag)} className="remove-tag"><X size={12} /></span>
                                         </span>

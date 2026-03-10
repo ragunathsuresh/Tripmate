@@ -30,6 +30,7 @@ const updateUserProfile = async (req, res) => {
             user.travelStyle = req.body.travelStyle || user.travelStyle;
             user.monthlyBudget = req.body.monthlyBudget !== undefined ? req.body.monthlyBudget : user.monthlyBudget;
             user.topDestinations = req.body.topDestinations || user.topDestinations;
+            user.profilePicture = req.body.profilePicture !== undefined ? req.body.profilePicture : user.profilePicture;
 
             const updatedUser = await user.save();
 
@@ -41,6 +42,7 @@ const updateUserProfile = async (req, res) => {
                 travelStyle: updatedUser.travelStyle,
                 monthlyBudget: updatedUser.monthlyBudget,
                 topDestinations: updatedUser.topDestinations,
+                profilePicture: updatedUser.profilePicture,
                 role: updatedUser.role,
             });
         } else {

@@ -52,8 +52,8 @@ const Home = () => {
             {/* Navbar */}
             <nav className="navbar">
                 <Link to="/" className="nav-logo">
-                    <PlaneTakeoff color="#00d2ff" />
-                    <span>AI Travel</span>
+                    <img src="/tripmate-logo.png" alt="Logo" style={{ width: '32px', height: '32px', borderRadius: '8px' }} />
+                    <span>Tripmate</span>
                 </Link>
                 <div className="nav-links">
                     <Link to="/">Home</Link>
@@ -111,15 +111,22 @@ const Home = () => {
                     ) : (
                         featured.map((dest) => (
                             <div key={dest._id} className="destination-card">
-                                <div className="card-image">
-                                    <img src={dest.images[0]} alt={dest.name} />
+                                <div className="card-image" onClick={() => navigate(`/destination/${dest._id}`)} style={{ cursor: 'pointer' }}>
+                                    <img
+                                        src={dest.images?.[0] || 'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=1000&auto=format&fit=crop'}
+                                        alt={dest.name}
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = 'https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=1000&auto=format&fit=crop';
+                                        }}
+                                    />
                                     <div className="card-rating">
                                         <Star className="star-icon" size={14} fill="#fbbf24" />
                                         <span>{dest.rating}</span>
                                     </div>
                                 </div>
                                 <div className="card-content">
-                                    <h3>{dest.name}</h3>
+                                    <h3 onClick={() => navigate(`/destination/${dest._id}`)} style={{ cursor: 'pointer' }}>{dest.name}</h3>
                                     <p>{dest.description}</p>
                                     <Link to={`/destination/${dest._id}`} className="view-details">
                                         Explore Now
@@ -166,8 +173,8 @@ const Home = () => {
                 <div className="footer-grid">
                     <div className="footer-info">
                         <div className="footer-logo">
-                            <PlaneTakeoff color="#00d2ff" />
-                            <span>AI Travel</span>
+                            <img src="/tripmate-logo.png" alt="Logo" style={{ width: '24px', height: '24px', borderRadius: '4px', marginRight: '8px' }} />
+                            <span>Tripmate</span>
                         </div>
                         <p className="footer-desc">
                             Redefining travel planning through the power of artificial intelligence. Discover, plan, and go.

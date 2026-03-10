@@ -18,12 +18,17 @@ const destinationSchema = mongoose.Schema(
         category: {
             type: String,
             required: [true, 'Please select a category'],
-            enum: ['Beach', 'Mountain', 'City', 'Historical', 'Adventure', 'Hill'],
+            enum: ['Beach', 'Mountain', 'City', 'Historical', 'Adventure', 'Hill', 'Wildlife', 'Wellness', 'Luxury', 'Cultural', 'RoadTrip'],
         },
         climate: {
             type: String,
-            enum: ['Tropical', 'Moderate', 'Cold'],
+            enum: ['Tropical', 'Moderate', 'Cold', 'Arid', 'Rainy', 'Coastal', 'Arctic', 'Alpine', 'Humid'],
             default: 'Moderate',
+        },
+        travelStyle: {
+            type: String,
+            enum: ['Solo', 'Couple', 'Family', 'Business', 'Cruise', 'Adventure'],
+            default: 'Solo',
         },
         description: {
             type: String,

@@ -186,9 +186,11 @@ const generateTripPlan = async (req, res) => {
         };
         console.log('GENERATE: Init Query:', query);
 
-        if (budgetLevel === 'Economy') query.estimatedCostPerDay = { $lte: 150 };
+        if (budgetLevel === 'Backpacker') query.estimatedCostPerDay = { $lte: 75 };
+        else if (budgetLevel === 'Economy') query.estimatedCostPerDay = { $lte: 150 };
         else if (budgetLevel === 'Comfort') query.estimatedCostPerDay = { $lte: 450 };
         else if (budgetLevel === 'Luxury') query.estimatedCostPerDay = { $gte: 450 };
+        else if (budgetLevel === 'Ultra Luxury') query.estimatedCostPerDay = { $gte: 800 };
 
         let destinations = await Destination.find(query).sort({ rating: -1 });
         console.log(`GENERATE: Found ${destinations.length} matches`);

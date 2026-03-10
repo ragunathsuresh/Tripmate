@@ -21,7 +21,8 @@ import {
     CheckCircle2,
     Clock,
     Navigation,
-    History
+    History,
+    User
 } from 'lucide-react';
 import './MyTrips.css';
 
@@ -69,15 +70,20 @@ const MyTrips = () => {
     };
 
     const handleDeleteTrip = async (tripId) => {
+        if (!tripId) return;
         if (window.confirm('Are you sure you want to delete this trip?')) {
             try {
                 const token = localStorage.getItem('token');
-                await axios.delete(`/api/trips/${tripId}`, {
+                const res = await axios.delete(`/api/trips/${tripId}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                setTrips(trips.filter(t => t._id !== tripId));
+                if (res.status === 200) {
+                    setTrips(prev => prev.filter(t => t._id !== tripId));
+                    alert('Trip deleted successfully');
+                }
             } catch (err) {
                 console.error('Error deleting trip:', err);
+                alert('Failed to delete trip. Please try again.');
             }
         }
     };
@@ -105,12 +111,18 @@ const MyTrips = () => {
             {/* Sidebar */}
             <aside className="trips-sidebar">
                 <div className="sidebar-logo">
-                    <Navigation size={24} color="#00d2ff" fill="#00d2ff" />
-                    <span>VoyaPlan</span>
+                    <img src="/tripmate-logo.png" alt="Logo" style={{ width: '32px', height: '32px', borderRadius: '8px' }} />
+                    <span>Tripmate</span>
                 </div>
 
                 <div className="user-profile-card">
-                    <img src={`https://i.pravatar.cc/150?u=${user?._id || 'user'}`} alt="User" />
+                    {user?.profilePicture ? (
+                        <img src={user.profilePicture} alt="User" />
+                    ) : (
+                        <div className="user-avatar-placeholder" style={{ width: '40px', height: '40px', background: '#f8fafc', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <User size={20} color="#64748b" />
+                        </div>
+                    )}
                     <div className="user-info">
                         <h4>{user?.name || 'Traveler'}</h4>
                         <p>Premium Member</p>
@@ -208,11 +220,29 @@ const MyTrips = () => {
                                         <div className="trip-card-actions">
                                             <button
                                                 className="btn-view-trip"
-                                                onClick={() => navigate(`/itinerary/${trip._id}`)}
+                                                onClick={() => {
+                                                    if (trip._id) navigate(`/itinerary/${trip._id}`);
+                                                    else alert('Invalid Trip ID');
+                                                }}
                                             >
                                                 {trip.status === 'completed' ? 'Rebook' : 'View'}
                                             </button>
-                                            <button className="btn-icon-action"><Edit2 size={16} /></button>
+                                            <button
+                                                className="btn-icon-action"
+                                                onClick={() => {
+                                                    const newTitle = window.prompt("Enter new trip title:", trip.title || "");
+                                                    if (newTitle && newTitle !== trip.title) {
+                                                        const token = localStorage.getItem('token');
+                                                        axios.put(`/api/trips/${trip._id}`, { title: newTitle }, {
+                                                            headers: { Authorization: `Bearer ${token}` }
+                                                        }).then(res => {
+                                                            setTrips(trips.map(t => t._id === trip._id ? { ...t, title: res.data.title } : t));
+                                                        }).catch(err => console.error(err));
+                                                    }
+                                                }}
+                                            >
+                                                <Edit2 size={16} />
+                                            </button>
                                             <button
                                                 className="btn-icon-action delete"
                                                 onClick={() => handleDeleteTrip(trip._id)}

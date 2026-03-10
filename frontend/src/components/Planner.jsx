@@ -34,11 +34,14 @@ const Planner = () => {
         climatePreference: 'Tropical'
     });
 
-    const categories = ['Beach', 'Mountain', 'City', 'Historical', 'Adventure', 'Hill'];
-    const budgetLevels = ['Economy', 'Comfort', 'Luxury'];
-    const allInterests = ['Nature', 'Adventure', 'Culture', 'Relaxation', 'Food', 'Nightlife'];
-    const styles = ['Solo', 'Couple', 'Family', 'Group'];
-    const climates = ['Tropical', 'Moderate', 'Cold'];
+    const categories = ['Beach', 'Mountain', 'City', 'Historical', 'Adventure', 'Hill', 'Wildlife', 'Wellness', 'Luxury', 'Cultural', 'RoadTrip'];
+    const budgetLevels = ['Backpacker', 'Economy', 'Comfort', 'Luxury', 'Ultra Luxury'];
+    const allInterests = [
+        'Nature', 'Adventure', 'Culture', 'Relaxation', 'Food', 'Nightlife',
+        'Shopping', 'Religious', 'Spa', 'Wildlife', 'Photography', 'Art'
+    ];
+    const styles = ['Solo', 'Couple', 'Family', 'Group', 'Business', 'Cruise', 'Adventure'];
+    const climates = ['Tropical', 'Moderate', 'Cold', 'Arid', 'Rainy', 'Coastal', 'Arctic', 'Alpine', 'Humid'];
 
     const handleInterestToggle = (interest) => {
         setPrefs(prev => ({
